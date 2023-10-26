@@ -15,6 +15,7 @@ public class PathfindingController : MonoBehaviour
     //Map data
     public Map map;
     [SerializeField] public int maxEpisodes = 100;
+    [SerializeField] public int timeScale = 1;
     private List<int> times = new List<int>();
 
     //External scripts
@@ -35,7 +36,7 @@ public class PathfindingController : MonoBehaviour
 
     void Start()
     {
-        Time.timeScale = 5f;
+        Time.timeScale = (float)timeScale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
         //Create the map with cell data we need
         map = new Map(Parameters.mapWidth, Parameters.cellWidth);

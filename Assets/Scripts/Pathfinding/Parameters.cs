@@ -18,7 +18,7 @@ namespace PathfindingForVehicles
         //The size of all cells in [m]
         public const int mapWidth = 80;
         //The size of one cell in [m]
-        public const float cellWidth = 1f;
+        public const float cellWidth = 0.25f;
 
         //Obstacles
         //Make the car fatter to be on the safe side when checking collisions
