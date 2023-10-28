@@ -213,8 +213,7 @@ namespace PathfindingForVehicles
                     float headingDifference = Mathf.Abs(endCar.HeadingInDegrees - nextNode.HeadingInDegrees);
 
                     //If we end up in the same cell or is within a certain distance from the goal
-                    if ((distanceSqrToGoal < posAccuracy * posAccuracy || (cellPos.x == goalCellPos.x && cellPos.z == goalCellPos.z)))
-                    //  && headingDifference < headingAccuracy)
+                    if ((distanceSqrToGoal < posAccuracy * posAccuracy || (cellPos.x == goalCellPos.x && cellPos.z == goalCellPos.z)) && headingDifference < headingAccuracy)
                     {                    
                         found = true;
 

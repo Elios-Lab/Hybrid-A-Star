@@ -6,5 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/self-driving.unity
+    path: Assets/Scenes/Garage.unity
     guid: 28ceafc2bd5eee84184008e040da6acf
+  m_configObjects: {}

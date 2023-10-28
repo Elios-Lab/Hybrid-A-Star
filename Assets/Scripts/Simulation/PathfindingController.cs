@@ -20,6 +20,7 @@ public class PathfindingController : MonoBehaviour
 
     //External scripts
     private DisplayController displayController;
+    private ObstaclesGenerator obstaclesGenerator;
     private GameObject[] obstacles, barriers;
     private bool collided = false;  
     private int totalCollisions = 0;
@@ -30,6 +31,15 @@ public class PathfindingController : MonoBehaviour
         current = this;
         
         displayController = GetComponent<DisplayController>();
+        // if (GetComponent<ObstaclesGenerator>() != null) {
+        //     Debug.Log("Setting the scene for dynamic obstacles");
+        //     obstaclesGenerator = GetComponent<ObstaclesGenerator>();
+        // }
+        // else {
+        //     Debug.Log("Setting the scene for the garage");
+        //     obstaclesGenerator = GetComponent<ObstaclesGeneratorGarage>();
+        // }
+        obstaclesGenerator = GetComponent<ObstaclesGenerator>();
     }
 
 
@@ -49,7 +59,7 @@ public class PathfindingController : MonoBehaviour
 
         int startTime = Environment.TickCount;
             
-        this.GetComponent<ObstaclesGenerator>().InitObstacles(map);
+        obstaclesGenerator.InitObstacles(map);
         obstacles = GameObject.FindGameObjectsWithTag("obstacleAligned");
         barriers = GameObject.FindGameObjectsWithTag("barrier");
             
@@ -93,20 +103,21 @@ public class PathfindingController : MonoBehaviour
                 }
             }   
         }
-        if((this.GetComponent<ObstaclesGenerator>().goal.GetComponent<Target>().Touched() || collided) && times.Count == maxEpisodes) {
+        if((obstaclesGenerator.goal.GetComponent<Target>().Touched() || collided) && times.Count == maxEpisodes) {
             SimController.current.StopCar();
             Debug.Log("<color=green>Average time: " + (float)(times.Sum(x=>x/1000f)/(float)times.Count) + " seconds over " + times.Count + " episodes</color>");
             Debug.Log("<color=red>Total collisions: " + totalCollisions + "</color>");
             // Application.Quit();
             UnityEditor.EditorApplication.isPlaying = false;
         }
-        if((this.GetComponent<ObstaclesGenerator>().goal.GetComponent<Target>().Touched() || collided) && times.Count < maxEpisodes)
+        if((obstaclesGenerator.goal.GetComponent<Target>().Touched() || collided) && times.Count < maxEpisodes)
         {
             collided = false;
-            this.GetComponent<ObstaclesGenerator>().goal.GetComponent<Target>().ResetTouched();
+            obstaclesGenerator.goal.GetComponent<Target>().ResetTouched();
             SimController.current.StopCar();
-            map = new Map(Parameters.mapWidth, Parameters.cellWidth);
-            this.GetComponent<ObstaclesGenerator>().MoveObstacles(map);
+            if (!(obstaclesGenerator is ObstaclesGeneratorGarage))
+                map = new Map(Parameters.mapWidth, Parameters.cellWidth);
+            obstaclesGenerator.MoveObstacles(map);
             StartCoroutine(WaitForCarToStop());
             print("<color=yellow>Episode: " + times.Count + "</color>");
         }
@@ -114,11 +125,12 @@ public class PathfindingController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             collided = false;
-            this.GetComponent<ObstaclesGenerator>().goal.GetComponent<Target>().ResetTouched();
+            obstaclesGenerator.goal.GetComponent<Target>().ResetTouched();
             SimController.current.StopCar();
             //Create the map with cell data we need
-            map = new Map(Parameters.mapWidth, Parameters.cellWidth);
-            this.GetComponent<ObstaclesGenerator>().MoveObstacles(map);
+            if (!(obstaclesGenerator is ObstaclesGeneratorGarage))
+                map = new Map(Parameters.mapWidth, Parameters.cellWidth);
+            obstaclesGenerator.MoveObstacles(map);
             StartCoroutine(WaitForCarToStop());
             print("<color=orange>Resetting episode: </color>" + times.Count);
         }
@@ -202,7 +214,7 @@ public class PathfindingController : MonoBehaviour
 
         // carShowingEndPos.gameObject.SetActive(true);
 
-        Car goal = new Car(this.GetComponent<ObstaclesGenerator>().goal.transform, SimController.current.GetActiveCarData());
+        Car goal = new Car(obstaclesGenerator.goal.transform, SimController.current.GetActiveCarData());
 
         // Transform carShowingEndPos = SimController.current.GetCarShowingEndPosTrans();
 

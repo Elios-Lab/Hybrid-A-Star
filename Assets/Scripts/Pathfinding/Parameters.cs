@@ -16,7 +16,7 @@ namespace PathfindingForVehicles
 
         //Map data
         //The size of all cells in [m]
-        public const int mapWidth = 80;
+        public const int mapWidth = 80;//21;
         //The size of one cell in [m]
         public const float cellWidth = 0.25f;
 

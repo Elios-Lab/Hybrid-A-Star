@@ -30,7 +30,7 @@ namespace PathfindingForVehicles
             
 
         void Start() 
-    {
+        {
             // max = GameObject.FindWithTag("barrier").GetComponentInChildren<Transform>();
             GameObject[] maxAll = GameObject.FindGameObjectsWithTag("barrier");
             foreach (GameObject barrier in maxAll)
@@ -49,9 +49,9 @@ namespace PathfindingForVehicles
             agent = car.GetComponent<VehicleDataController>();
 
             // RandomObstaclesPositioning();  
-    }
+        }
 
-        public void InitObstacles(Map map)
+        public virtual void InitObstacles(Map map)
         {
             //Generate obstacles
             DestroyOldObss();
@@ -60,7 +60,7 @@ namespace PathfindingForVehicles
             AddObstacle(map);
         }
 
-        public void MoveObstacles(Map map)
+        public virtual void MoveObstacles(Map map)
         {
             RandomAgentPositioning();
             RepositionTargetRandom();
@@ -94,7 +94,7 @@ namespace PathfindingForVehicles
             //}
         }
 
-        public void RandomAgentPositioning()
+        public virtual void RandomAgentPositioning()
         {
             float rotation;
             float[] randomXZ = GenerateRandomXZ();
@@ -169,7 +169,7 @@ namespace PathfindingForVehicles
             }
         }
         //Instantiate one cube and add its position to the array
-        void AddObstacle(Map map)
+        protected virtual void AddObstacle(Map map)
         {
             // for (int i = 0; i < 5; i++) 
             // {
@@ -369,7 +369,7 @@ namespace PathfindingForVehicles
         }
 
 
-        public void RepositionTargetRandom()
+        public virtual void RepositionTargetRandom()
         {
             float x_base;
             float z_base; 
@@ -435,7 +435,12 @@ namespace PathfindingForVehicles
             //Setting target position              
 
             goal.transform.position = new Vector3(x_base, 0, z_base);
-            
+            // goal.transform.rotation = Quaternion.Euler(0, GenerateRandomValueInRange(0, 360), 0);
+            // Get the vectors between the two transforms
+            Vector3 vectorToB = goal.transform.position - agent.transform.position;
+            // Calculate the rotation needed to reorient the object basing on the segment between the two transforms
+            Quaternion rotation = Quaternion.LookRotation(vectorToB);
+            goal.transform.rotation = rotation;            
         }   
 
 
@@ -493,7 +498,7 @@ namespace PathfindingForVehicles
             }
         }
 
-        private void GenerateField(Map map) {
+        protected void GenerateField(Map map) {
             int mapWidth = map.MapWidth;
             float cellWidth = map.CellWidth;
 
@@ -540,7 +545,7 @@ namespace PathfindingForVehicles
             return new float[] {x_base, z_base};
         }
 
-        private float GenerateRandomValueInRange(float from, float to) {
+        protected float GenerateRandomValueInRange(float from, float to) {
             // Generate a random double between 0.0 and 1.0
             double randomDouble = rand.NextDouble();
 
