@@ -36,9 +36,9 @@ namespace PathfindingForVehicles
                 float z_base;
 
                 maxXAgent = 20f- (carWidth / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation)) - (carLength / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation));
-                maxZAgent = 13.5f - (carWidth / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation)) - (carLength / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation));
+                maxZAgent = 13.25f - (carWidth / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation)) - (carLength / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation));
                 minXAgent = 0 + (carWidth / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation)) + (carLength / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation));  
-                minZAgent = 6.5f + (carWidth / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation)) - (carLength / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation));
+                minZAgent = 5.75f + (carWidth / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation)) - (carLength / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation));
 
                 //X coordinate for possible available position randomized after the rotation of the vehicle
                 x_base = GenerateRandomValueInRange(Mathf.Floor(minXAgent), Mathf.Floor(maxXAgent));
