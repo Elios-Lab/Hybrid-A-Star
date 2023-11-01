@@ -56,9 +56,9 @@ namespace SelfDrivingVehicle
                 TryChangeWaypoint();
 
                 //Display the waypoint we are heading towards
-                //Vector3 waypointPos = GetWayPointPos(currentWayPointIndex);
-
-                //Debug.DrawRay(waypointPos, Vector3.up * 5f, Color.red);
+                //Vector3 waypointPos = GetWaypointPos(currentWayPointIndex, false);
+                // Can comment out
+                Debug.DrawRay(wayPoints[currentWayPointIndex].rearWheelPos, Vector3.up * 5f, Color.red);
             }
             //If not, then stop the car
             else
@@ -103,7 +103,7 @@ namespace SelfDrivingVehicle
             
             if (angle > 10f)
             {
-                float deviateFromPathSpeed = Parameters.maxPathFollowSpeed * 0.5f;
+                float deviateFromPathSpeed = Parameters.maxPathFollowSpeed * 0.25f;
 
                 if (deviateFromPathSpeed < wantedSpeed)
                 {
@@ -175,9 +175,9 @@ namespace SelfDrivingVehicle
         {
             //Should always be measured from the rear wheels because that's what is used when generating the path
             //But in the final version we are moving the waypoints forward, so it depends on if we are reversing or not
-            //bool isReversing = wayPoints[currentWayPointIndex].isReversing;
+            bool isReversing = wayPoints[currentWayPointIndex].isReversing;
 
-            bool isReversing = false;
+            // bool isReversing = false;
 
             Vector3 wp2 = GetWaypointPos(currentWayPointIndex, isReversing);
             Vector3 wp1 = GetWaypointPos(currentWayPointIndex - 1, isReversing);
@@ -203,7 +203,7 @@ namespace SelfDrivingVehicle
                     carScript.StopCar();
                 }
 
-                //Debug.Log(currentWayPointIndex);
+                // Debug.Log(currentWayPointIndex);
             }
         }
 

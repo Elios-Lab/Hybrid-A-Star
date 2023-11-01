@@ -10,15 +10,15 @@ namespace PathfindingForVehicles
         //Car data
         //Some are not the same for all cars, so is in their own class called CarData
         //The max speed when the car is following the path
-        public const float maxPathFollowSpeed = 15f;
+        public const float maxPathFollowSpeed = 10f;
         //The speed with which we turn the steering wheel
         public const float steeringWheelSpeed = 5f;
 
         //Map data
         //The size of all cells in [m]
-        public const int mapWidth = 80;//21;
+        public const int mapWidth = 24;
         //The size of one cell in [m]
-        public const float cellWidth = 0.25f;
+        public const float cellWidth = 0.1f;
 
         //Obstacles
         //Make the car fatter to be on the safe side when checking collisions
@@ -43,7 +43,7 @@ namespace PathfindingForVehicles
         //Costs to make the car behave in different ways
         //For example, we prefere to drive forward instead of reversing
         public const float turningCost = 0.2f;
-        public const float obstacleCost = 1.0f;
+        public const float obstacleCost = 4.0f;
         public const float reverseCost = 2f;
         public const float switchingDirectionOfMovementCost = 0.5f;
         //Extra cost for trailer because its not good at reversing

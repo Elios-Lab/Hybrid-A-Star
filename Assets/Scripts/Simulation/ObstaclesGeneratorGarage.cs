@@ -35,10 +35,10 @@ namespace PathfindingForVehicles
                 float x_base;
                 float z_base;
 
-                maxXAgent = 20f- (carWidth / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation)) - (carLength / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation));
-                maxZAgent = 13.25f - (carWidth / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation)) - (carLength / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation));
-                minXAgent = 0 + (carWidth / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation)) + (carLength / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation));  
-                minZAgent = 5.75f + (carWidth / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation)) - (carLength / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation));
+                maxXAgent = 21.25f - (carLength / 2); // * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation)) - (carLength / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation));
+                maxZAgent = 14.25f - (carLength / 2); // * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation)) - (carLength / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation));
+                minXAgent = 2f + (carLength / 2); // * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation)) + (carLength / 2) * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation));  
+                minZAgent = 9f + (carLength / 2); // * Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * rotation)) - (carLength / 2) * Mathf.Abs(Mathf.Cos(Mathf.Deg2Rad * rotation));
 
                 //X coordinate for possible available position randomized after the rotation of the vehicle
                 x_base = GenerateRandomValueInRange(Mathf.Floor(minXAgent), Mathf.Floor(maxXAgent));
@@ -77,18 +77,18 @@ namespace PathfindingForVehicles
             float z = 0;
 
             //int i = 5;
-            float[] possibleX = {2.5f, 6.5f, 10.5f, 14.5f, 18.5f};
+            float[] possibleX = {4f, 8f, 12f, 16f, 20f};
 
             //Set the goal rotation -90 garage above 90 garage below
             if (i >= 0 && i <= 4)  
             {
                 goal.transform.rotation = Quaternion.Euler(0, 180, 0);
-                z = 2.25f;
+                z = 4.5f;
             }
             else
             {
                 goal.transform.rotation = Quaternion.Euler(0, -180, 0);
-                z = 16.25f;
+                z = 17.5f;
             }   
             
             x = possibleX[(int)GenerateRandomValueInRange(0, 5)];
@@ -107,10 +107,10 @@ namespace PathfindingForVehicles
                     //Generate random coordinates in the map
                     //float posX = GenerateRandomValueInRange(1f, map.MapWidth - 1f);
                     //float posZ = GenerateRandomValueInRange(1f, map.MapWidth - 1f);
-                    float posX = 2.4f + (4f * i);
+                    float posX = 3.9f + (4f * i);
                     float posZ;
-                    if(j == 0) {posZ = 3f;}
-                    else {posZ = 16f;}
+                    if(j == 0) {posZ = 4.5f;}
+                    else {posZ = 17.5f;}
                     //Rotation
                     float rotY;
                     if(j == 0) {rotY = 0f;}
@@ -130,23 +130,30 @@ namespace PathfindingForVehicles
                     obstaclePrefabObj.transform.rotation = rot;
                     //obstaclePrefabObj.transform.localScale = scale;
 
-                    for (int n = 0; n < obstaclePrefabObj.transform.childCount; n++)
-                    {
-                        Obstacle newObstacle = new Obstacle(obstaclePrefabObj.transform.GetChild(n).transform);
+                    // for (int n = 0; n < obstaclePrefabObj.transform.childCount; n++)
+                    // {
+                    //     Obstacle newObstacle = new Obstacle(obstaclePrefabObj.transform.GetChild(n).transform);
 
-                        //The obstacle shouldnt intersect with the start area
-                        //if (Intersections.AreRectangleRectangleIntersecting(avoidRect, newObstacle.cornerPos))
-                        //{
-                        //    return;
-                        //}
+                    //     //The obstacle shouldnt intersect with the start area
+                    //     //if (Intersections.AreRectangleRectangleIntersecting(avoidRect, newObstacle.cornerPos))
+                    //     //{
+                    //     //    return;
+                    //     //}
 
-                        map.allObstacles.Add(newObstacle);
-                    }
+                    //     map.allObstacles.Add(newObstacle);
+                    // }
 
                     //Add a new obstacle object at this position
                     Instantiate(obstaclePrefabObj, obstaclesParent);
                 }
             }  
+
+            GameObject[] barriers = GameObject.FindGameObjectsWithTag("barrier");
+            foreach (GameObject barrier in barriers)
+            {
+                Obstacle newObstacle = new Obstacle(barrier.transform);
+                map.allObstacles.Add(newObstacle);
+            }
         }
     }
 }
