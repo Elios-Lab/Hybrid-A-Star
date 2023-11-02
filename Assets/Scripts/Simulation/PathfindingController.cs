@@ -24,6 +24,8 @@ public class PathfindingController : MonoBehaviour
     private GameObject[] obstacles, barriers;
     private bool collided = false;  
     private int totalCollisions = 0;
+    private int totalNotFounds = 0;
+    private bool foundPath = true;
 
 
     void Awake()
@@ -106,7 +108,7 @@ public class PathfindingController : MonoBehaviour
         if((obstaclesGenerator.goal.GetComponent<Target>().Touched() || collided) && times.Count == maxEpisodes) {
             SimController.current.StopCar();
             Debug.Log("<color=green>Average time: " + (float)(times.Sum(x=>x/1000f)/(float)times.Count) + " seconds over " + times.Count + " episodes</color>");
-            Debug.Log("<color=red>Total collisions: " + totalCollisions + "</color>");
+            Debug.Log("<color=red>Total collisions: " + totalCollisions + "<\n>Total resets: " + totalNotFounds + "</color>");
             // Application.Quit();
             UnityEditor.EditorApplication.isPlaying = false;
         }
@@ -122,8 +124,9 @@ public class PathfindingController : MonoBehaviour
             print("<color=yellow>Episode: " + times.Count + "</color>");
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) || !foundPath)
         {
+            foundPath = true;
             collided = false;
             obstaclesGenerator.goal.GetComponent<Target>().ResetTouched();
             SimController.current.StopCar();
@@ -323,10 +326,13 @@ public class PathfindingController : MonoBehaviour
         if (finalPath == null || finalPath.Count == 0)
         {
             UIController.current.SetFoundPathText("Failed to find a path!");
+            totalNotFounds++;
+            foundPath = false;
         }
         else
         {
             UIController.current.SetFoundPathText("Found a path!");
+            foundPath = true;
         }
 
         //

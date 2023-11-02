@@ -22,7 +22,7 @@ namespace PathfindingForVehicles
 
         //Obstacles
         //Make the car fatter to be on the safe side when checking collisions
-        public const float marginOfSafety = 0.1f;
+        public const float marginOfSafety = 0.2f;
         //Size of each random obstacle
         public const float maxObstacleSize = 15f;
         public const float minObstacleSize = 1f;
@@ -43,9 +43,9 @@ namespace PathfindingForVehicles
         //Costs to make the car behave in different ways
         //For example, we prefere to drive forward instead of reversing
         public const float turningCost = 0.2f;
-        public const float obstacleCost = 4.0f;
-        public const float reverseCost = 2f;
-        public const float switchingDirectionOfMovementCost = 0.5f;
+        public const float obstacleCost = 20.0f;
+        public const float reverseCost = 3f;
+        public const float switchingDirectionOfMovementCost = 1f;
         //Extra cost for trailer because its not good at reversing
         public const float trailerReverseCost = 30f;
 
