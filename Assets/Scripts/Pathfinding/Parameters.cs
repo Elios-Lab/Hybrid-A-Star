@@ -16,9 +16,9 @@ namespace PathfindingForVehicles
 
         //Map data
         //The size of all cells in [m]
-        public const int mapWidth = 24;
+        public const int mapWidth = 80; //24;
         //The size of one cell in [m]
-        public const float cellWidth = 0.1f;
+        public const float cellWidth = 0.5f;
 
         //Obstacles
         //Make the car fatter to be on the safe side when checking collisions
@@ -43,16 +43,16 @@ namespace PathfindingForVehicles
         //Costs to make the car behave in different ways
         //For example, we prefere to drive forward instead of reversing
         public const float turningCost = 0.2f;
-        public const float obstacleCost = 20.0f;
-        public const float reverseCost = 3f;
-        public const float switchingDirectionOfMovementCost = 1f;
+        public const float obstacleCost = 30.0f;
+        public const float reverseCost = 2f;
+        public const float switchingDirectionOfMovementCost = 2f;
         //Extra cost for trailer because its not good at reversing
         public const float trailerReverseCost = 30f;
 
         //Voronoi field
         //The falloff rate > 0
-        public const float voronoi_alpha = 0.01f;
+        public const float voronoi_alpha = 10f;
         //The maximum effective range of the field > 0 
-        public const float d_o_max = 5f;
+        public const float d_o_max = 50f;
     }
 }
